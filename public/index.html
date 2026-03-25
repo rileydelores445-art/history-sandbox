@@ -1,0 +1,1937 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>历史沙盘 · 虎门销烟 · 1839</title>
+<link href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   样式与之前完全相同（为节省篇幅，此处省略，实际使用时请保留原样式）
+═══════════════════════════════════════════ */
+/* 注意：由于篇幅限制，此处省略完整样式，请使用之前提供的样式文件 */
+:root{
+  --ink:        #0d0a05;
+  --ink2:       #1c1408;
+  --ink3:       #2e1f0a;
+  --paper:      #f2e8d0;
+  --paper2:     #e8dcc0;
+  --paper3:     #ddd0b0;
+  --red:        #9b2226;
+  --red2:       #c1292d;
+  --red3:       #f5e0e0;
+  --gold:       #c9a84c;
+  --gold2:      #e8c86e;
+  --gold3:      #7a5e1e;
+  --blue:       #1b3a6b;
+  --blue2:      #2c5282;
+  --blue3:      #e8f0fa;
+  --fade:       #7a6645;
+  --border:     #c8b080;
+  --border2:    #a89060;
+  --shadow:     rgba(13,10,5,.18);
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{
+  font-family: 'Noto Sans SC', sans-serif;
+  background: var(--ink);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before{
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  opacity:.6;
+}
+.topbar{
+  background: var(--ink);
+  border-bottom: 1px solid var(--gold3);
+  padding: 0 28px;
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top:0; z-index:100;
+  position: relative;
+}
+.topbar::after{
+  content:'';
+  position:absolute; bottom:-3px; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold2), var(--gold), transparent);
+}
+.tb-left{ display:flex; flex-direction:column; gap:2px; }
+.tb-title{
+  font-family: 'Ma Shan Zheng', serif;
+  color: var(--gold);
+  font-size: 1.25em;
+  letter-spacing: 6px;
+  line-height: 1;
+}
+.tb-sub{
+  font-size: .6em; letter-spacing: 3px;
+  color: #5a4820;
+  text-transform: uppercase;
+}
+.tb-right{ display:flex; align-items:center; gap:14px; }
+.ai-pill{
+  font-size: .62em; letter-spacing: 2px;
+  padding: 5px 14px; border-radius: 2px;
+  background: linear-gradient(135deg, var(--red), #7a1518);
+  color: #fde8e8;
+  border: 1px solid rgba(255,255,255,.1);
+  display: flex; align-items: center; gap:6px;
+  box-shadow: 0 2px 12px rgba(155,34,38,.4);
+}
+.ai-dot{ width:5px; height:5px; border-radius:50%; background:#ffc0c0; animation:breathe 2s infinite; }
+@keyframes breathe{ 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:1;transform:scale(1.3)} }
+.layout{ display:flex; min-height:calc(100vh - 59px); position:relative; z-index:1; }
+.sidebar{
+  width: 248px; flex-shrink:0;
+  background: linear-gradient(180deg, #0d0a05 0%, #140f07 40%, #0d0a05 100%);
+  border-right: 1px solid var(--gold3);
+  padding: 22px 18px;
+  display: flex; flex-direction:column; gap:22px;
+  position: relative; overflow: hidden;
+}
+.sidebar::before{
+  content:'';
+  position:absolute; inset:0;
+  background-image: repeating-linear-gradient(90deg, transparent 0px, transparent 38px, rgba(184,134,11,.06) 38px, rgba(184,134,11,.06) 39px);
+  pointer-events:none;
+}
+.sb-section{ position:relative; z-index:1; }
+.sb-heading{
+  font-family: 'Ma Shan Zheng', serif;
+  color: var(--gold);
+  font-size: .8em;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sb-heading::after{ content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--gold3),transparent); }
+.stat-row{ margin-bottom:11px; }
+.stat-head{
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-size:.7em; color:#8a7048; margin-bottom:5px;
+}
+.stat-name{ letter-spacing:1px; }
+.stat-val{ font-family:'Ma Shan Zheng',serif; color:var(--gold); font-size:1.1em; }
+.stat-track{
+  height:3px;
+  background: rgba(255,255,255,.05);
+  border-radius:2px; overflow:hidden;
+  position:relative;
+}
+.stat-fill{
+  height:100%; border-radius:2px;
+  transition: width .7s cubic-bezier(.4,0,.2,1), background .7s ease;
+  position:relative;
+}
+.stat-fill::after{
+  content:''; position:absolute; right:0; top:0; bottom:0;
+  width:4px;
+  background: rgba(255,255,255,.5);
+  border-radius:2px;
+}
+.prog-row{ display:flex; gap:8px; }
+.prog-pip{
+  flex:1; height:28px; border-radius:2px;
+  border:1px solid #2a1e08;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Ma Shan Zheng',serif;
+  font-size:.78em; color:#3a2a10;
+  transition:all .35s;
+  position:relative; overflow:hidden;
+}
+.prog-pip::before{
+  content:''; position:absolute; inset:0;
+  background:transparent; transition:background .35s;
+}
+.prog-pip.active{
+  border-color:var(--gold); color:var(--gold);
+}
+.prog-pip.active::before{ background:rgba(201,168,76,.08); }
+.prog-pip.done{
+  border-color:#3a6a3a; color:#5a9a5a;
+}
+.prog-pip.done::before{ background:rgba(90,154,90,.07); }
+.hist-scroll{ max-height:150px; overflow-y:auto; }
+.hist-scroll::-webkit-scrollbar{ width:2px; }
+.hist-scroll::-webkit-scrollbar-thumb{ background:var(--gold3); }
+.hist-item{
+  padding:6px 10px; margin-bottom:6px;
+  border-left:2px solid #2a1e08;
+  position:relative;
+}
+.hist-item.new{ border-left-color:var(--gold3); }
+.hist-lv{ font-size:.62em; color:#4a3a18; letter-spacing:1px; margin-bottom:2px; }
+.hist-tx{ font-size:.7em; color:#8a7248; line-height:1.5; }
+.sbtns{ display:flex; flex-direction:column; gap:7px; }
+.sbtn{
+  padding:9px 12px; border-radius:2px;
+  font-family:'Ma Shan Zheng',serif;
+  font-size:.82em; letter-spacing:3px;
+  cursor:pointer; transition:all .2s;
+  border:1px solid; background:transparent;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  position:relative; overflow:hidden;
+}
+.sbtn::before{
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(135deg,rgba(255,255,255,.05),transparent);
+  opacity:0; transition:opacity .2s;
+}
+.sbtn:hover:not(:disabled)::before{ opacity:1; }
+.sbtn:disabled{ opacity:.28; cursor:not-allowed; }
+.sbtn-gold{ border-color:var(--gold3); color:var(--gold); }
+.sbtn-gold:hover:not(:disabled){ border-color:var(--gold); box-shadow:0 0 12px rgba(201,168,76,.2); }
+.sbtn-green{ border-color:#3a5a3a; color:#6aaa6a; }
+.sbtn-green:hover:not(:disabled){ border-color:#5a8a5a; box-shadow:0 0 12px rgba(90,154,90,.2); }
+.sbtn-dim{ border-color:#1e1808; color:#3a2a10; }
+.sbtn-dim:hover:not(:disabled){ border-color:#3a2a10; color:#5a4828; }
+.main{
+  flex:1;
+  background: radial-gradient(ellipse at 50% 0%, rgba(155,34,38,.04) 0%, transparent 60%),
+              radial-gradient(ellipse at 50% 100%, rgba(13,10,5,.08) 0%, transparent 50%),
+              var(--paper);
+  padding: 32px 40px 60px;
+  overflow-y: auto;
+  position: relative;
+}
+.main::before{
+  content:''; position:sticky; top:0; left:0;
+  display:block; height:0;
+  box-shadow: inset 8px 0 20px -8px rgba(13,10,5,.12);
+  pointer-events:none;
+}
+.scene-lbl{
+  font-size:.62em; letter-spacing:5px; color:var(--fade);
+  text-transform:uppercase; margin-bottom:16px;
+  display:flex; align-items:center; gap:10px;
+  animation: fadeSlideIn .5s ease both;
+}
+.scene-lbl::before,.scene-lbl::after{
+  content:''; height:1px; background:var(--border); flex:none;
+}
+.scene-lbl::before{ width:24px; }
+.scene-lbl::after{ flex:1; }
+@keyframes fadeSlideIn{ from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:none} }
+.nar-card{
+  background: linear-gradient(160deg, #faf4e4 0%, #f0e8ce 60%, #e8dcc0 100%);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 32px 36px 28px;
+  margin-bottom: 24px;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 2px 0 var(--border2), 0 4px 16px var(--shadow), inset 0 1px 0 rgba(255,255,255,.6);
+  animation: scrollUnfurl .6s cubic-bezier(.2,1,.4,1) both;
+}
+@keyframes scrollUnfurl{
+  from{ opacity:0; transform:scaleY(.94) translateY(-8px); transform-origin:top; }
+  to{ opacity:1; transform:none; }
+}
+.nar-card::before{
+  content:''; position:absolute; left:52px; top:12px; bottom:12px;
+  width:1px; background:rgba(155,34,38,.25);
+}
+.nar-card::after{
+  content:'奏';
+  position:absolute; top:14px; left:18px;
+  font-family:'Ma Shan Zheng',serif;
+  font-size:1.5em; color:rgba(155,34,38,.2);
+  line-height:1;
+}
+.nar-text{
+  font-family:'Noto Serif SC',serif;
+  font-size:.98em; line-height:2.3;
+  color:#1a1008;
+  padding-left:32px;
+}
+.nar-hint{
+  text-align:right; font-size:.65em;
+  color:var(--border2); margin-top:18px;
+  padding-right:4px;
+  animation:blink 2s infinite;
+}
+@keyframes blink{ 0%,100%{opacity:1} 50%{opacity:.2} }
+.ai-nar{
+  background: var(--ink);
+  border: 1px solid var(--gold3);
+  border-radius: 2px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  position: relative; overflow:hidden;
+  box-shadow: 0 4px 24px rgba(13,10,5,.4);
+  animation: fadeSlideIn .4s ease both;
+}
+.ai-nar::before{
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold2), var(--gold), transparent);
+}
+.ai-nar::after{
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse at 80% 20%, rgba(201,168,76,.06) 0%, transparent 60%);
+  pointer-events:none;
+}
+.ai-lbl{
+  font-size:.6em; letter-spacing:4px; color:var(--gold2);
+  margin-bottom:14px; display:flex; align-items:center; gap:8px;
+  text-transform:uppercase;
+}
+.ai-lbl-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--gold2); animation:breathe 1.5s infinite;
+}
+.ai-nar-text{
+  font-family:'Noto Serif SC',serif;
+  font-size:.92em; line-height:2.2; color:#d4aa60;
+  position:relative; z-index:1;
+}
+.ai-nar-text.streaming::after{
+  content:'▌'; animation:cursor .7s infinite; color:var(--gold2);
+}
+@keyframes cursor{ 0%,100%{opacity:1}50%{opacity:0} }
+.spin-wrap{ display:flex; align-items:center; gap:10px; color:#5a4820; font-size:.8em; }
+.spin-dots{ display:flex; gap:4px; }
+.sd{
+  width:4px;height:4px;border-radius:50%;background:var(--gold);
+  animation:sd .9s infinite;
+}
+.sd:nth-child(2){animation-delay:.18s;}
+.sd:nth-child(3){animation-delay:.36s;}
+@keyframes sd{ 0%,100%{transform:translateY(0);opacity:.3} 50%{transform:translateY(-4px);opacity:1} }
+.dec-wrap{ animation: fadeSlideIn .5s ease both; }
+.dec-header{ margin-bottom:20px; }
+.dec-title{
+  font-family:'Ma Shan Zheng',serif;
+  font-size:1.35em; color:var(--red);
+  letter-spacing:3px; margin-bottom:6px;
+  text-shadow: 0 1px 0 rgba(155,34,38,.2);
+}
+.dec-ctx{
+  font-size:.8em; color:var(--fade);
+  line-height:1.8; padding:10px 16px;
+  background:rgba(155,34,38,.04);
+  border-left:3px solid var(--red);
+  border-radius:0 2px 2px 0;
+}
+.opts-grid{ display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+.opt{
+  border:1px solid #d4c098;
+  border-radius:2px; padding:16px 18px;
+  cursor:pointer; transition:all .22s;
+  background: linear-gradient(135deg,#fffdf5,#faf4e0);
+  position:relative; overflow:hidden;
+}
+.opt::before{
+  content:''; position:absolute; left:0; top:0; bottom:0;
+  width:3px; background:transparent; transition:background .22s;
+  border-radius:2px 0 0 2px;
+}
+.opt:hover{ border-color:#b09060; transform:translateX(4px); }
+.opt:hover::before{ background:var(--gold); }
+.opt.sel{
+  border-color:var(--blue);
+  background:linear-gradient(135deg,#f0f4fc,#e8eef8);
+  box-shadow:0 2px 12px rgba(27,58,107,.12);
+}
+.opt.sel::before{ background:var(--blue); }
+.opt-head{ display:flex; align-items:center; gap:8px; margin-bottom:5px; }
+.badge{
+  font-size:.58em; padding:2px 10px; border-radius:1px;
+  font-weight:700; letter-spacing:2px; flex-shrink:0;
+  text-transform:uppercase; font-family:'Noto Sans SC',sans-serif;
+}
+.hard{ background:#f5e8e8; color:var(--red); border:1px solid rgba(155,34,38,.2); }
+.soft{ background:#e8f5e8; color:#1b5e20; border:1px solid rgba(27,94,32,.2); }
+.smart{ background:#e8f0f8; color:var(--blue); border:1px solid rgba(27,58,107,.2); }
+.opt-text{ font-size:.9em; color:var(--ink); font-weight:500; font-family:'Noto Serif SC',serif; }
+.opt-hint{ font-size:.75em; color:var(--fade); line-height:1.6; padding-left:2px; }
+.sub-row{ display:flex; align-items:center; gap:16px; }
+.sub-btn{
+  padding:11px 32px; border:none; border-radius:2px;
+  background:linear-gradient(135deg,var(--red),#7a1518);
+  color:#fde8e8;
+  font-family:'Ma Shan Zheng',serif;
+  font-size:.95em; letter-spacing:4px;
+  cursor:pointer; transition:all .22s;
+  box-shadow:0 2px 0 #5a0e10, 0 4px 12px rgba(155,34,38,.3);
+  position:relative; top:0;
+}
+.sub-btn:disabled{ opacity:.35; cursor:not-allowed; box-shadow:none; }
+.sub-btn:hover:not(:disabled){
+  background:linear-gradient(135deg,#b52428,#8a1518);
+  top:1px; box-shadow:0 1px 0 #5a0e10, 0 2px 8px rgba(155,34,38,.3);
+}
+.sub-btn:active:not(:disabled){ top:2px; box-shadow:none; }
+.fx-prev{ font-size:.7em; color:var(--fade); line-height:1.8; }
+.dlg-outer{
+  border:1px solid var(--border2);
+  border-radius:3px;
+  overflow:hidden;
+  margin-bottom:24px;
+  box-shadow: 0 4px 24px var(--shadow);
+  animation: fadeSlideIn .5s .1s ease both;
+}
+.dlg-header{
+  background:linear-gradient(135deg,var(--blue),#0f2748);
+  padding:16px 22px;
+  display:flex; align-items:center; justify-content:space-between;
+  position:relative;
+}
+.dlg-header::after{
+  content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent);
+}
+.dlg-htitle{
+  font-family:'Ma Shan Zheng',serif;
+  color:#e8f0fc; font-size:1em; letter-spacing:3px;
+}
+.dlg-hsub{ color:rgba(232,240,252,.45); font-size:.64em; letter-spacing:1px; margin-top:2px; }
+.fig-tabs{ display:flex; gap:8px; }
+.fig-tab{
+  padding:6px 16px; border-radius:2px; font-size:.68em;
+  cursor:pointer; border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.5); background:transparent;
+  font-family:'Ma Shan Zheng',serif; letter-spacing:2px;
+  transition:all .2s;
+}
+.fig-tab.on{
+  background:rgba(255,255,255,.15); color:#fff;
+  border-color:rgba(255,255,255,.5);
+  box-shadow:0 0 10px rgba(255,255,255,.1);
+}
+.round-bar{
+  background:linear-gradient(135deg,#faf4e0,#f0e8ce);
+  border-bottom:1px solid var(--border);
+  padding:10px 22px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.rpips{ display:flex; gap:8px; align-items:center; }
+.rpip{
+  width:26px; height:26px; border-radius:50%;
+  border:1.5px solid #c8b080;
+  font-family:'Ma Shan Zheng',serif; font-size:.72em;
+  display:flex; align-items:center; justify-content:center;
+  color:#9a8048; transition:all .3s;
+}
+.rpip.cur{
+  border-color:var(--red); color:var(--red);
+  background:rgba(155,34,38,.06);
+  box-shadow:0 0 8px rgba(155,34,38,.2);
+}
+.rpip.done{
+  border-color:#3a6a3a; color:#5a9a5a;
+  background:rgba(90,154,90,.07);
+}
+.rlabel{ font-size:.65em; color:var(--fade); letter-spacing:2px; }
+.angle-section{
+  padding:14px 22px 12px;
+  background:linear-gradient(135deg,#faf4e0,#f5ecd8);
+  border-bottom:1px solid var(--border);
+}
+.angle-lbl{
+  font-size:.62em; letter-spacing:3px; color:var(--fade);
+  text-transform:uppercase; margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.angle-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
+.angle-cards-wrap{ display:flex; gap:9px; }
+.angle-card{
+  flex:1;
+  padding:11px 14px;
+  border:1px solid var(--border);
+  border-radius:2px;
+  cursor:pointer; background:#fff;
+  transition:all .22s;
+  position:relative; overflow:hidden;
+}
+.angle-card::before{
+  content:''; position:absolute; left:0; top:0; bottom:0;
+  width:3px; background:transparent; transition:background .22s; border-radius:2px 0 0 2px;
+}
+.angle-card:hover{ border-color:var(--blue2); transform:translateY(-2px); box-shadow:0 3px 12px rgba(27,58,107,.12); }
+.angle-card:hover::before{ background:var(--blue); }
+.angle-card.picked{ border-color:var(--blue); background:var(--blue3); }
+.angle-card.picked::before{ background:var(--blue); }
+.acard-head{
+  font-size:.63em; font-weight:700; letter-spacing:2px;
+  color:var(--blue); margin-bottom:4px; text-transform:uppercase;
+}
+.acard-body{ font-size:.74em; color:#3a2a10; line-height:1.6; }
+.dlg-msgs{
+  height:280px; overflow-y:auto;
+  padding:16px 22px;
+  background: linear-gradient(180deg,#f7f2e4,#f2ead0);
+  display:flex; flex-direction:column; gap:12px;
+}
+.dlg-msgs::-webkit-scrollbar{ width:3px; }
+.dlg-msgs::-webkit-scrollbar-thumb{ background:var(--border2); }
+.msg{ max-width:78%; animation:msgIn .25s ease both; }
+@keyframes msgIn{ from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+.msg.usr{ align-self:flex-end; }
+.msg.ai{ align-self:flex-start; }
+.msg-name{ font-size:.6em; color:var(--fade); margin-bottom:3px; letter-spacing:1px; }
+.msg.usr .msg-name{ text-align:right; }
+.bubble{
+  padding:10px 14px; font-size:.82em; line-height:1.75;
+  font-family:'Noto Serif SC',serif;
+}
+.msg.usr .bubble{
+  background:linear-gradient(135deg,var(--blue),#0f2748);
+  color:#e8f0ff;
+  border-radius:3px 0 3px 3px;
+  box-shadow:0 2px 8px rgba(27,58,107,.25);
+}
+.msg.ai .bubble{
+  background: linear-gradient(135deg,#fffef5,#faf4e0);
+  color:var(--ink);
+  border:1px solid var(--border);
+  border-radius:0 3px 3px 3px;
+  box-shadow:0 2px 8px var(--shadow);
+}
+.insight{
+  margin-top:10px; padding:10px 12px;
+  background:var(--ink);
+  border-radius:2px;
+  border-left:3px solid var(--gold);
+}
+.insight-title{
+  font-size:.62em; letter-spacing:3px; color:var(--gold2);
+  margin-bottom:6px; text-transform:uppercase; display:flex;align-items:center;gap:6px;
+}
+.insight-body{
+  font-size:.8em; color:#c8a850; line-height:1.8;
+  font-family:'Noto Serif SC',serif;
+}
+.beyond{
+  margin-top:8px; padding:7px 10px;
+  background:rgba(201,168,76,.08);
+  border-radius:2px; border-left:2px solid var(--gold3);
+  font-size:.8em; color:#a88030; line-height:1.7;
+}
+.beyond b{ color:var(--gold); }
+.dlg-footer{
+  border-top:1px solid var(--border);
+  display:flex;
+}
+.dlg-input{
+  flex:1; padding:12px 18px; border:none; outline:none;
+  font-size:.84em; font-family:'Noto Serif SC',serif;
+  background:var(--paper); color:var(--ink);
+  letter-spacing:.5px;
+}
+.dlg-input::placeholder{ color:var(--border2); }
+.dlg-input:disabled{ opacity:.5; }
+.dlg-send{
+  padding:0 22px; border:none; border-left:1px solid var(--border);
+  background:var(--ink); color:var(--gold);
+  cursor:pointer; font-family:'Ma Shan Zheng',serif;
+  font-size:.82em; letter-spacing:3px;
+  transition:all .2s; white-space:nowrap;
+}
+.dlg-send:hover{ background:var(--ink3); color:var(--gold2); }
+.dlg-send:disabled{ opacity:.3; cursor:not-allowed; }
+.outcome-hero{
+  text-align:center; padding:40px 0 28px;
+  animation:fadeSlideIn .6s ease both;
+}
+.seal-ring{
+  width:90px; height:90px; border-radius:50%;
+  border:2px solid currentColor;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-family:'Ma Shan Zheng',serif;
+  font-size:1.5em; letter-spacing:3px;
+  margin-bottom:14px;
+  position:relative;
+  box-shadow:0 0 0 6px rgba(155,34,38,.06), 0 4px 20px var(--shadow);
+}
+.seal-ring::before{
+  content:''; position:absolute; inset:-7px; border-radius:50%;
+  border:1px dashed currentColor; opacity:.3;
+}
+.outcome-title{
+  font-family:'Ma Shan Zheng',serif;
+  font-size:2em; letter-spacing:5px;
+  margin-bottom:6px; line-height:1.2;
+}
+.outcome-sub{ color:var(--fade); font-size:.72em; letter-spacing:3px; }
+.out-block{
+  background:linear-gradient(160deg,#faf4e4,#f0e8ce);
+  border:1px solid var(--border);
+  border-radius:2px;
+  padding:20px 24px; margin-bottom:16px;
+  box-shadow:0 2px 8px var(--shadow);
+}
+.out-block h3{
+  font-family:'Ma Shan Zheng',serif;
+  font-size:.85em; color:var(--red);
+  letter-spacing:3px; margin-bottom:12px;
+  padding-bottom:8px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;
+}
+.out-block h3::before{ content:''; width:4px; height:14px; background:var(--red); border-radius:2px; }
+.path-node{ display:flex; align-items:flex-start; gap:12px; margin-bottom:8px; }
+.path-n{
+  width:24px; height:24px; border-radius:50%;
+  border:1.5px solid var(--blue2); color:var(--blue);
+  font-size:.68em; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; font-family:'Ma Shan Zheng',serif;
+  background:var(--blue3);
+}
+.path-t{ font-size:.82em; color:#2a1a08; line-height:1.7; padding-top:3px; font-family:'Noto Serif SC',serif; }
+.stat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.stat-cell{
+  background:#fff; border:1px solid var(--border);
+  padding:12px 16px; border-radius:2px;
+  box-shadow:0 1px 4px var(--shadow);
+}
+.sc-l{ font-size:.65em; color:var(--fade); margin-bottom:5px; letter-spacing:1px; }
+.sc-v{ font-weight:700; font-size:1.3em; font-family:'Ma Shan Zheng',serif; }
+.eval-block{
+  background:var(--ink);
+  border:1px solid var(--gold3); border-radius:2px;
+  padding:24px 28px; margin-bottom:16px;
+  position:relative; overflow:hidden;
+}
+.eval-block::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),var(--gold),transparent);
+}
+.eval-title{
+  font-family:'Ma Shan Zheng',serif; color:var(--gold2);
+  font-size:.9em; letter-spacing:4px; margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.eval-text{
+  font-family:'Noto Serif SC',serif;
+  font-size:.88em; line-height:2.2; color:#c8a850;
+}
+.replay-wrap{ text-align:center; padding:28px 0 48px; }
+.replay-btn{
+  padding:12px 36px; background:transparent;
+  border:1px solid var(--red); color:var(--red);
+  font-family:'Ma Shan Zheng',serif; font-size:.9em;
+  letter-spacing:4px; cursor:pointer; border-radius:2px;
+  transition:all .22s;
+}
+.replay-btn:hover{ background:var(--red); color:#fde8e8; box-shadow:0 4px 16px rgba(155,34,38,.3); }
+.modal-bg{
+  position:fixed;inset:0;background:rgba(5,3,1,.88);
+  display:flex;align-items:center;justify-content:center;
+  z-index:999; backdrop-filter:blur(6px);
+}
+.modal{
+  background:var(--paper);
+  border:1px solid var(--gold3); border-radius:3px;
+  padding:40px 36px; max-width:480px; width:90%;
+  text-align:center;
+  position:relative; overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  animation:modalIn .3s cubic-bezier(.2,1,.4,1) both;
+}
+@keyframes modalIn{ from{opacity:0;transform:scale(.9) translateY(10px)} to{opacity:1;transform:none} }
+.modal::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),var(--gold),transparent);
+}
+.modal-icon{ font-size:3em; margin-bottom:14px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.3)); }
+.modal h2{
+  font-family:'Ma Shan Zheng',serif;
+  color:var(--red); font-size:1.35em; letter-spacing:4px; margin-bottom:14px;
+}
+.modal p{
+  font-size:.84em; color:var(--fade); line-height:1.9;
+  font-family:'Noto Serif SC',serif;
+}
+.modal-btns{ display:flex; gap:12px; justify-content:center; margin-top:26px; }
+.mbtn{
+  padding:10px 26px; border:1px solid; border-radius:2px;
+  font-family:'Ma Shan Zheng',serif; font-size:.88em;
+  letter-spacing:3px; cursor:pointer; background:transparent; transition:all .2s;
+}
+.mbtn-r{ border-color:var(--red); color:var(--red); }
+.mbtn-r:hover{ background:var(--red); color:#fde8e8; box-shadow:0 4px 16px rgba(155,34,38,.3); }
+.mbtn-d{ border-color:var(--border); color:var(--fade); }
+.mbtn-d:hover{ background:var(--paper2); }
+.toast{
+  position:fixed; bottom:28px; left:50%;
+  transform:translateX(-50%) translateY(6px);
+  background:var(--ink); color:var(--gold2);
+  padding:8px 22px; border-radius:2px; border:1px solid var(--gold3);
+  font-size:.72em; letter-spacing:2px; font-family:'Ma Shan Zheng',serif;
+  opacity:0; transition:all .3s; z-index:9999; pointer-events:none;
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+/* 新增史料库按钮样式 */
+.history-btn {
+  background: transparent;
+  border: 1px solid var(--gold3);
+  color: var(--gold);
+  padding: 5px 12px;
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: .75em;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all .2s;
+  margin-left: 8px;
+}
+.history-btn:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,.1);
+}
+.history-panel {
+  background: var(--paper);
+  border: 1px solid var(--border2);
+  border-radius: 2px;
+  padding: 20px;
+  margin-top: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: .85em;
+  line-height: 1.8;
+  color: var(--ink);
+  box-shadow: 0 4px 12px var(--shadow);
+  animation: fadeSlideIn .3s ease;
+}
+.history-panel h4 {
+  font-family: 'Ma Shan Zheng', serif;
+  color: var(--red);
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 5px;
+}
+.history-panel p {
+  margin-bottom: 8px;
+}
+.history-panel .close-btn {
+  float: right; cursor: pointer; color: var(--fade); font-size: 1.2em;
+}
+
+/* ══ 班级互动面板 ══ */
+.interact-btn {
+  background:transparent; border:1px solid #3a6a3a; color:#6aaa6a;
+  padding:5px 12px; font-family:'Ma Shan Zheng',serif;
+  font-size:.75em; letter-spacing:2px; cursor:pointer;
+  border-radius:2px; transition:all .2s; margin-left:8px;
+}
+.interact-btn:hover { border-color:#5a9a5a; background:rgba(90,170,90,.1); }
+.interact-btn.on { background:#1a3a1a; border-color:#6aaa6a; }
+.side-panel {
+  position:fixed; top:0; right:0; bottom:0; width:320px; z-index:500;
+  background:linear-gradient(180deg,#0d0a05,#140f07);
+  border-left:1px solid var(--gold3);
+  display:flex; flex-direction:column;
+  transform:translateX(100%); transition:transform .3s cubic-bezier(.2,1,.4,1);
+  box-shadow:-6px 0 28px rgba(0,0,0,.5);
+}
+.side-panel.open { transform:translateX(0); }
+.sp-head {
+  padding:16px 18px 12px; border-bottom:1px solid rgba(201,168,76,.2);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.sp-title { font-family:'Ma Shan Zheng',serif; color:var(--gold); font-size:.95em; letter-spacing:4px; }
+.sp-close { background:none; border:none; color:var(--fade); cursor:pointer; font-size:1.1em; padding:2px 6px; }
+.sp-close:hover { color:var(--gold); }
+.sp-body { flex:1; overflow-y:auto; padding:14px; }
+.sp-body::-webkit-scrollbar { width:2px; }
+.sp-body::-webkit-scrollbar-thumb { background:var(--gold3); }
+.sp-status {
+  font-size:.65em; letter-spacing:2px; text-align:center;
+  padding:8px; border:1px solid rgba(201,168,76,.15); border-radius:2px;
+  color:var(--fade); margin-bottom:12px;
+}
+.sp-status.live { color:#6aaa6a; border-color:rgba(90,170,90,.3); }
+.sp-qr {
+  background:#fff; border-radius:4px; padding:14px;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  margin-bottom:12px;
+}
+.sp-qr img { border-radius:2px; max-width:180px; }
+.qr-tip { font-size:.58em; color:#555; letter-spacing:1px; text-align:center; font-family:sans-serif; }
+.qr-url { font-size:.52em; color:#888; word-break:break-all; text-align:center; }
+.vbar-row { margin-bottom:9px; }
+.vbar-head { display:flex; justify-content:space-between; font-size:.67em; color:#8a7048; margin-bottom:3px; }
+.vbar-text { max-width:190px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#c8a850; }
+.vbar-cnt { color:var(--gold); font-family:'Ma Shan Zheng',serif; }
+.vbar-track { height:18px; background:rgba(255,255,255,.05); border-radius:2px; overflow:hidden; }
+.vbar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,#2a5a3a,#4a9a5a); transition:width .5s ease; }
+.vbar-fill.lead { background:linear-gradient(90deg,#7a3a1a,#c96a2a); }
+.vote-total { text-align:center; font-size:.63em; color:var(--fade); margin:8px 0; letter-spacing:2px; }
+.vote-winner {
+  background:rgba(201,168,76,.08); border:1px solid var(--gold3);
+  border-radius:2px; padding:10px; margin-top:8px;
+  font-size:.72em; color:var(--gold2); text-align:center;
+  letter-spacing:1px; font-family:'Ma Shan Zheng',serif; line-height:1.7;
+}
+.arg-item {
+  padding:10px 12px; margin-bottom:8px; cursor:pointer;
+  border:1px solid rgba(200,176,128,.2); border-radius:3px;
+  background:rgba(242,232,208,.04); transition:all .2s;
+}
+.arg-item:hover { border-color:var(--gold3); background:rgba(201,168,76,.08); }
+.arg-item.selected { border-color:var(--gold); background:rgba(201,168,76,.12); }
+.arg-no { font-size:.58em; color:var(--fade); margin-bottom:4px; letter-spacing:1px; }
+.arg-txt { font-size:.78em; color:#c8a850; line-height:1.6; font-family:'Noto Serif SC',serif; }
+.arg-empty { font-size:.7em; color:#3a2a10; text-align:center; padding:20px 0; letter-spacing:1px; }
+.sp-foot { padding:12px 14px; border-top:1px solid rgba(201,168,76,.15); display:flex; flex-direction:column; gap:7px; }
+.sp-btn {
+  padding:9px; border-radius:2px; border:1px solid; font-family:'Ma Shan Zheng',serif;
+  font-size:.8em; letter-spacing:3px; cursor:pointer; background:transparent;
+  transition:all .2s; text-align:center;
+}
+.sp-btn-green { border-color:#3a6a3a; color:#6aaa6a; }
+.sp-btn-green:hover:not(:disabled) { background:#1a3a1a; }
+.sp-btn-red { border-color:var(--red); color:var(--red2); }
+.sp-btn-red:hover:not(:disabled) { background:rgba(155,34,38,.12); }
+.sp-btn:disabled { opacity:.3; cursor:not-allowed; }
+.collect-btn {
+  padding:0 14px; border:none; border-left:1px solid var(--border);
+  background:linear-gradient(135deg,#1a3a1a,#0d2010); color:#6aaa6a;
+  cursor:pointer; font-family:'Ma Shan Zheng',serif;
+  font-size:.76em; letter-spacing:2px; transition:all .2s; white-space:nowrap;
+}
+.collect-btn:hover { background:#2a5a2a; }
+.collect-btn:disabled { opacity:.3; cursor:not-allowed; }
+.report-block {
+  background:var(--ink); border:1px solid var(--gold3); border-radius:2px;
+  padding:20px 24px; margin-bottom:16px; position:relative; overflow:hidden;
+}
+.report-block::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),var(--gold),transparent);
+}
+.report-title {
+  font-family:'Ma Shan Zheng',serif; color:var(--gold2);
+  font-size:.88em; letter-spacing:4px; margin-bottom:14px;
+}
+.report-row { margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid rgba(201,168,76,.1); }
+.report-row:last-child { border-bottom:none; margin-bottom:0; }
+.report-lv { font-size:.62em; color:#5a4020; letter-spacing:2px; margin-bottom:4px; }
+.report-opt { font-size:.78em; color:#c8a850; line-height:1.6; font-family:'Noto Serif SC',serif; }
+.report-votes { display:flex; gap:6px; margin-top:5px; flex-wrap:wrap; }
+.rv-item {
+  font-size:.6em; padding:2px 8px; border-radius:2px;
+  background:rgba(201,168,76,.08); border:1px solid rgba(201,168,76,.15); color:#8a6828;
+}
+.rv-item.win { background:rgba(201,168,76,.2); border-color:var(--gold3); color:var(--gold2); }
+</style>
+</head>
+<body>
+
+<!-- ══ 欢迎弹窗 ══ -->
+<div class="modal-bg" id="welcomeModal">
+  <div class="modal">
+    <div class="modal-icon">&#127963;</div>
+    <h2>历史沙盘 · 虎门销烟</h2>
+    <p>
+      道光十九年 · 广州<br><br>
+      你将扮演<strong>林则徐</strong>，经历四层历史抉择<br><br>
+      &#10024;&ensp;AI 动态生成每次决策的历史推演<br>
+      &#128172;&ensp;与<strong>义律、道光皇帝</strong>进行四轮立场对话<br>
+      &#127919;&ensp;每轮对话结束后解锁「立场解析」<br>
+      &#127891;&ensp;你的论点影响国家状态数值
+    </p>
+    <div class="modal-btns">
+      <button class="mbtn mbtn-r" id="welcomeBtn">踏入历史</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 重置弹窗 ══ -->
+<div class="modal-bg" id="resetModal" style="display:none">
+  <div class="modal">
+    <div class="modal-icon">&#128260;</div>
+    <h2>确认重置</h2>
+    <p>所有决策记录与对话将被清空，游戏从头开始。</p>
+    <div class="modal-btns">
+      <button class="mbtn mbtn-d" id="cancelReset">取消</button>
+      <button class="mbtn mbtn-r" id="confirmReset">确认重置</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══ 顶栏 ══ -->
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-title">历史沙盘 · 虎门销烟</div>
+    <div class="tb-sub">1839 · Opium War · AI Education Edition</div>
+  </div>
+  <div class="tb-right">
+    <div class="ai-pill"><div class="ai-dot"></div>AI Powered</div>
+    <button class="history-btn" id="historyBtn">📜 史料库</button>
+    <button class="interact-btn" id="interactBtn">📱 班级互动</button>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ══ 侧栏 ══ -->
+  <div class="sidebar">
+
+    <div class="sb-section">
+      <div class="sb-heading">国家状态</div>
+      <div class="stat-row">
+        <div class="stat-head">
+          <span class="stat-name">&#9876; 国家安全</span>
+          <span class="stat-val" id="vSec">75</span>
+        </div>
+        <div class="stat-track"><div class="stat-fill" id="bSec" style="width:75%;background:#5a9a5a"></div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-head">
+          <span class="stat-name">&#128149; 民心支持</span>
+          <span class="stat-val" id="vPop">65</span>
+        </div>
+        <div class="stat-track"><div class="stat-fill" id="bPop" style="width:65%;background:#5a9a5a"></div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-head">
+          <span class="stat-name">&#9775; 经济实力</span>
+          <span class="stat-val" id="vEco">60</span>
+        </div>
+        <div class="stat-track"><div class="stat-fill" id="bEco" style="width:60%;background:#5a9a5a"></div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-head">
+          <span class="stat-name">&#127759; 国际声望</span>
+          <span class="stat-val" id="vPre">50</span>
+        </div>
+        <div class="stat-track"><div class="stat-fill" id="bPre" style="width:50%;background:#e09020"></div></div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-heading">决策进度</div>
+      <div class="prog-row">
+        <div class="prog-pip" id="d0">一</div>
+        <div class="prog-pip" id="d1">二</div>
+        <div class="prog-pip" id="d2">三</div>
+        <div class="prog-pip" id="d3">四</div>
+      </div>
+    </div>
+
+    <div class="sb-section" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+      <div class="sb-heading">决策记录</div>
+      <div class="hist-scroll" id="histLog">
+        <div style="color:#3a2a10;font-size:.65em;letter-spacing:1px">尚未做出任何决策</div>
+      </div>
+    </div>
+
+    <div class="sb-section sbtns">
+      <button class="sbtn sbtn-gold" id="startBtn">&#9654; 开始叙事</button>
+      <button class="sbtn sbtn-green" id="nextBtn" disabled>继续 &#9660;</button>
+      <button class="sbtn sbtn-dim" id="resetBtn">重置游戏</button>
+    </div>
+
+  </div>
+
+  <!-- ══ 主区域 ══ -->
+  <div class="main" id="mainArea">
+    <div class="scene-lbl" id="sceneLbl">序章 · 背景</div>
+
+    <div class="nar-card" id="narCard">
+      <div class="nar-text" id="narText">欢迎进入历史沙盘。点击左侧「开始叙事」，踏入1839年的广州。</div>
+      <div class="nar-hint" id="narHint" style="display:none">&#9660;&ensp;点击任意处继续</div>
+    </div>
+
+    <div id="aiNarZone" style="display:none"></div>
+    <div id="dialogueZone" style="display:none"></div>
+    <div id="decisionZone" style="display:none"></div>
+    <div id="outcomeZone" style="display:none"></div>
+
+    <!-- 史料库面板（默认隐藏） -->
+    <div id="historyPanel" class="history-panel" style="display:none;">
+      <span class="close-btn" id="closeHistory">✕</span>
+      <h4>📜 真实历史背景</h4>
+      <div id="historyContent">
+        <p><strong>虎门销烟（1839年）</strong>：林则徐在东莞虎门海滩当众销毁鸦片，历时23天，销毁鸦片237万斤。这是中国近代史上第一次大规模禁毒行动。</p>
+        <p><strong>鸦片战争（1840-1842）</strong>：英国以此为借口发动侵华战争，清军战败，被迫签订《南京条约》，割让香港，开放五口通商。</p>
+        <p><strong>义律（Charles Elliot）</strong>：英国驻华商务监督，在禁烟期间与林则徐多次交涉，主张强硬立场，后成为英方代表。</p>
+        <p><strong>道光皇帝</strong>：在禁烟问题上犹豫不决，既想杜绝鸦片又怕开战，最终在战败后被迫接受不平等条约。</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ 班级互动面板 ══ -->
+<div class="side-panel" id="sidePanel">
+  <div class="sp-head">
+    <div class="sp-title" id="spTitle">班级互动</div>
+    <button class="sp-close" id="spClose">✕</button>
+  </div>
+  <div class="sp-body" id="spBody">
+    <div class="sp-status" id="spStatus">暂无进行中的互动</div>
+    <div id="spQR" class="sp-qr" style="display:none">
+      <img id="spQRImg" src="" alt="QR码" />
+      <div class="qr-tip">学生用手机扫码参与（同一WiFi/热点）</div>
+      <div class="qr-url" id="spQRUrl"></div>
+    </div>
+    <div id="spContent"></div>
+  </div>
+  <div class="sp-foot" id="spFoot">
+    <button class="sp-btn sp-btn-green" id="spStartBtn" disabled>▶ 开启投票</button>
+    <button class="sp-btn sp-btn-red" id="spEndBtn" disabled>⏹ 结束 · 公布结果</button>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ========== 工具函数 ========== */
+const g = id => document.getElementById(id);
+
+// 安全转义
+function escapeHTML(str) {
+  if (!str) return '';
+  return str.replace(/[&<>"]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    if (m === '"') return '&quot;';
+    return m;
+  });
+}
+
+function textToHtml(str) {
+  return escapeHTML(str).replace(/\n/g, '<br>');
+}
+
+function showToast(msg){
+  const t = g('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* ========== 静态数据 ========== */
+const SNAMES = {security:'国家安全',popularity:'民心支持',economy:'经济实力',prestige:'国际声望'};
+
+const NARRATIVES = [
+  '公元1839年，广州。我是林则徐，奉道光皇帝之命南下查禁鸦片。从北京到广州，一路所见皆是沉疴——衣衫褴褛的烟民、空荡荡的银库、涣散无力的士兵……',
+  '鸦片的危害触目惊心：每年超过一千万两白银流出国外，相当于朝廷全年财政收入的四分之一。广州十三行附近，烟馆鳞次栉比，吸食者骨瘦如柴，神情呆滞。',
+  '英国东印度公司的商人们傲慢地声称鸦片贸易是合法商业。商务监督义律更公然表示英国皇家海军将保护商业利益。他们背后，是当时世界最强大的工业国和海军。',
+  '而我大清，虽有四万万人口，但军备废弛、技术落后。朝中既有慷慨激昂的主战派，也有畏首畏尾的妥协派，皇帝的态度在两者之间摇摆不定。',
+  '身为钦差大臣，我深知这不仅是一场禁烟之战，更是关乎民族命运的历史抉择。每一个决定，都将在史册上留下印记。现在，命运的时刻到来了……'
+];
+
+const LEVELS = [
+  {title:'第一层决策：以何策略展开禁烟？',
+   context:'你刚抵达广州，消息已传遍十三行。外国商人们正在观望，等待你的第一步棋。',
+   options:[
+    {id:'A1',path:'强硬',badge:'hard',bt:'强硬路线',text:'立即封锁十三行商馆，强制收缴所有鸦片',hint:'雷霆手段迅速见效，但可能激化中外矛盾',effects:{security:-5,popularity:20,prestige:-10,economy:-10}},
+    {id:'B1',path:'温和',badge:'soft',bt:'温和路线',text:'发布钦差公告，限期自愿上交，给予白银补偿',hint:'减少冲突，为外交斡旋留有余地，但进展迟缓',effects:{security:5,popularity:-10,prestige:10,economy:-15}},
+    {id:'C1',path:'智谋',badge:'smart',bt:'智谋路线',text:'秘密调查走私网络，联合广东士绅和中国商人共同施压',hint:'内外结合孤立英商，但需要时间和精密部署',effects:{security:10,popularity:10,prestige:5,economy:-5}}
+   ]},
+  {title:'第二层决策：英商拒绝配合，局势升级',
+   context:'义律煽动英国商人拒不交出鸦片，并扬言将向英国政府报告，请求武力支持。',
+   options:[
+    {id:'A2a',path:'强硬',requires:'强硬',badge:'hard',bt:'强硬',text:'调集广东水师封锁珠江出海口，切断英船补给',hint:'釜底抽薪，逼迫英商就范，同时展示军事决心',effects:{security:15,popularity:15,prestige:-15,economy:-25}},
+    {id:'A2b',path:'强硬',requires:'强硬',badge:'hard',bt:'强硬',text:'扣押英国商务监督义律，以此作为谈判筹码',hint:'直接打击英方核心，但可能引发严重外交危机',effects:{security:10,popularity:20,prestige:-25,economy:-15}},
+    {id:'B2a',path:'温和',requires:'温和',badge:'soft',bt:'温和',text:'通过澳门葡萄牙当局向英国政府递交正式外交抗议书',hint:'走国际外交程序，争取道义支持，但周期漫长',effects:{security:0,popularity:-5,prestige:15,economy:-10}},
+    {id:'B2b',path:'温和',requires:'温和',badge:'soft',bt:'温和',text:'宣布暂停全部中英贸易，直至鸦片全部交出',hint:'以贸易利益为筹码施压，但英国可能以武力破局',effects:{security:-5,popularity:-10,prestige:10,economy:-30}},
+    {id:'C2a',path:'智谋',requires:'智谋',badge:'smart',bt:'智谋',text:'公开展示走私证据，联合美国、法国商人向英商施压',hint:'利用列强商业竞争，孤立英国在华利益集团',effects:{security:5,popularity:5,prestige:15,economy:-10}},
+    {id:'C2b',path:'智谋',requires:'智谋',badge:'smart',bt:'智谋',text:'上奏道光皇帝，请求以国家名义向英国发出最后通牒',hint:'以皇权权威增加谈判分量，但朝廷反应可能迟缓',effects:{security:10,popularity:10,prestige:10,economy:-5}}
+   ]},
+  {title:'第三层决策：收缴成功，如何处置鸦片？',
+   context:'经过数周周旋，英商共上交237万斤鸦片。如何处置这批鸦片，将向世界传递截然不同的信号。',
+   options:[
+    {id:'A3a',path:'强硬',requires:'强硬',badge:'hard',bt:'强硬',text:'虎门海滩公开销毁，邀请万民观礼，震惊中外',hint:'极大鼓舞民心士气，但彻底断绝与英国和谈的可能',effects:{security:5,popularity:30,prestige:20,economy:-15}},
+    {id:'A3b',path:'强硬',requires:'强硬',badge:'hard',bt:'强硬',text:'押运至京城，由道光皇帝亲自下令当众焚毁',hint:'将禁烟上升为国家最高意志，但押运途中风险极大',effects:{security:-5,popularity:20,prestige:25,economy:-20}},
+    {id:'B3a',path:'温和',requires:'温和',badge:'soft',bt:'温和',text:'分批运往内地秘密销毁，低调处理，避免刺激英方',hint:'争取外交时间，但朝廷和民众不满情绪将上升',effects:{security:10,popularity:-15,prestige:-5,economy:-10}},
+    {id:'B3b',path:'温和',requires:'温和',badge:'soft',bt:'温和',text:'保留部分鸦片作为实物证据，向英国提出损害赔偿索赔',hint:'以法律手段寻求补偿，但英方绝不承认鸦片贸易违法',effects:{security:0,popularity:-10,prestige:10,economy:5}},
+    {id:'C3a',path:'智谋',requires:'智谋',badge:'smart',bt:'智谋',text:'邀请英美法等国代表及外国记者亲眼见证销烟全程',hint:'争取国际道义高地，让西方媒体记录真相',effects:{security:5,popularity:20,prestige:30,economy:-15}},
+    {id:'C3b',path:'智谋',requires:'智谋',badge:'smart',bt:'智谋',text:'销烟前向义律发出最后通牒：48小时内提交撤军承诺',hint:'给英方最后机会，在程序上无懈可击',effects:{security:10,popularity:15,prestige:15,economy:-10}}
+   ]},
+  {title:'第四层决策：英国远征军抵达，战争一触即发',
+   context:'1840年6月，英国海军40余艘战舰封锁广州。道光皇帝在前线奏折与保守派压力间摇摆。历史的最终抉择来临。',
+   options:[
+    {id:'A4a',path:'强硬',requires:'强硬',badge:'hard',bt:'强硬',text:'全面动员广东军民，坚守阵地，誓死抵抗',hint:'捍卫民族尊严，留名青史，但以清军实力结局几乎注定',effects:{security:-35,popularity:25,prestige:20,economy:-45},outcome:'鸦片战争·虎门之战'},
+    {id:'A4b',path:'强硬',requires:'强硬',badge:'hard',bt:'强硬',text:'紧急联络俄国，以让渡北方贸易利益换取俄国出面斡旋',hint:'引入第三方大国制衡英国，但俄国介入代价极高',effects:{security:-15,popularity:-5,prestige:-10,economy:-30},outcome:'列强介入·各方博弈'},
+    {id:'B4a',path:'温和',requires:'温和',badge:'soft',bt:'温和',text:'派全权代表赴澳门与英方谈判，寻求停战条款',hint:'避免战争，但谈判桌上的中国已无筹码可言',effects:{security:-10,popularity:-15,prestige:-30,economy:-20},outcome:'南京条约·割地赔款'},
+    {id:'B4b',path:'温和',requires:'温和',badge:'soft',bt:'温和',text:'以开放广州、厦门两港换取英军撤离',hint:'以局部代价换取和平，为日后改革争取时间',effects:{security:-5,popularity:-20,prestige:-20,economy:-10},outcome:'有限开放·暂时妥协'},
+    {id:'C4a',path:'智谋',requires:'智谋',badge:'smart',bt:'智谋',text:'联合开明士绅上书，趁危机推动军事与政治改革以备战',hint:'危机即转机，以外部压力推动内部变革',effects:{security:5,popularity:10,prestige:15,economy:-25},outcome:'改革契机·洋务先声'},
+    {id:'C4b',path:'智谋',requires:'智谋',badge:'smart',bt:'智谋',text:'派秘密使团赴欧洲考察，谈判拖延时间并紧急购置西方武器',hint:'师夷长技以制夷，但时间窗口极为有限',effects:{security:15,popularity:5,prestige:10,economy:-35},outcome:'知己知彼·有限抵抗'}
+   ]}
+];
+
+const ANGLES = {
+  '义律':[
+    {head:'自由贸易逻辑',body:'从英国19世纪的自由贸易理念出发：一国政府有权干涉两国商人之间的贸易吗？义律会如何用这一逻辑反驳禁烟？'},
+    {head:'法律主权边界',body:'英国认为本国公民在海外受英国法律保护。义律会如何用这一点反驳林则徐对英国商人的管辖权？'},
+    {head:'文明与实力话语',body:'19世纪英国以"文明开化"自居。义律可能用什么样的话语为英国的强硬立场辩护？'}
+  ],
+  '道光皇帝':[
+    {head:'皇权的两难',body:'道光皇帝既想禁烟，又怕开战。他的犹豫背后，是什么样的政治压力和信息局限？'},
+    {head:'保守派的逻辑',body:'朝中的妥协派是真的懦弱吗？他们担忧的具体风险是什么？尝试理解他们的历史逻辑。'},
+    {head:'天朝秩序的危机',body:'道光皇帝最深的恐惧是什么——是战败本身，还是战败后天朝体制的象征性瓦解？'}
+  ]
+};
+
+const OUTCOME_INFO = {
+  '鸦片战争·虎门之战':{title:'鸦片战争爆发',sub:'1840—1842 · 最接近历史真实的路径',color:'#9b2226'},
+  '列强介入·各方博弈':{title:'引狼入室，格局重塑',sub:'假设路径 · 列强瓜分的前奏',color:'#4a148c'},
+  '南京条约·割地赔款':{title:'签订南京条约',sub:'1842年 · 半殖民地的开始',color:'#b54200'},
+  '有限开放·暂时妥协':{title:'有限开放，积蓄力量',sub:'假设路径 · 暂时的喘息',color:'#2e5e1a'},
+  '改革契机·洋务先声':{title:'改革契机，洋务先声',sub:'假设路径 · 历史的另一种可能',color:'#1a3a6c'},
+  '知己知彼·有限抵抗':{title:'师夷长技，有限抵抗',sub:'假设路径 · 理想与现实的落差',color:'#00454a'}
+};
+
+/* ========== 状态 ========== */
+let S = {
+  stats: {security:75, popularity:65, economy:60, prestige:50},
+  phase: 'idle',
+  narIdx: 0,
+  level: 0,
+  path: null,
+  chosen: null,
+  history: [],
+  started: false,
+  dlg: {figure:'义律', round:0, msgs:[], sending:false, done:false}
+};
+
+/* ========== 状态更新 ========== */
+function refreshStats(delta){
+  if(delta){
+    Object.keys(delta).forEach(k => {
+      if (S.stats.hasOwnProperty(k)) {
+        S.stats[k] = Math.max(0, Math.min(100, S.stats[k] + (delta[k]||0)));
+      }
+    });
+  }
+  const map = {security:'Sec', popularity:'Pop', economy:'Eco', prestige:'Pre'};
+  Object.keys(map).forEach(k => {
+    const v = S.stats[k];
+    const id = map[k];
+    const bar = g('b'+id);
+    if (bar) {
+      bar.style.width = v + '%';
+      bar.style.background = v >= 60 ? '#5a9a5a' : (v >= 35 ? '#e09020' : '#c04040');
+    }
+    const valSpan = g('v'+id);
+    if (valSpan) valSpan.textContent = v;
+  });
+}
+
+function refreshDots(){
+  ['一','二','三','四'].forEach((c, i) => {
+    const d = g('d'+i);
+    if (!d) return;
+    d.textContent = c;
+    d.className = 'prog-pip';
+    if (i < S.level) d.classList.add('done');
+    else if (i === S.level && S.phase === 'decision') d.classList.add('active');
+  });
+}
+
+function pushHistory(lv, tx){
+  if (S.history.length === 0) g('histLog').innerHTML = '';
+  S.history.push({lv, tx});
+  const el = document.createElement('div');
+  el.className = 'hist-item new';
+  el.innerHTML = `<div class="hist-lv">${escapeHTML(lv)}</div><div class="hist-tx">${escapeHTML(tx)}</div>`;
+  g('histLog').appendChild(el);
+  setTimeout(() => el.classList.remove('new'), 1500);
+}
+
+function fxHtml(effects){
+  if (!effects) return '';
+  return Object.keys(effects).map(k => {
+    const v = effects[k];
+    if (!v) return '';
+    const c = v>0 ? '#1b5e20' : '#9b2226';
+    const bg = v>0 ? '#e8f5e8' : '#f5e8e8';
+    const bdr = v>0 ? 'rgba(27,94,32,.2)' : 'rgba(155,34,38,.2)';
+    return `<span style="display:inline-block;padding:1px 8px;border-radius:2px;font-size:.68em;font-weight:700;background:${bg};color:${c};border:1px solid ${bdr};margin:2px 3px 2px 0">${SNAMES[k]} ${v>0?'+':''}${v}</span>`;
+  }).join('');
+}
+
+/* ========== API配置（密钥在 server.js，前端不可见）========== */
+const API_BASE = ''; // Vercel serverless，同源调用
+
+async function claude(messages, system, maxTok = 400) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+  try {
+    const deepseekMessages = [
+      { role: 'system', content: system },
+      ...messages
+    ];
+
+    const resp = await fetch(API_BASE + '/api/ai', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: deepseekMessages,
+        max_tokens: maxTok,
+        temperature: 0.85,  // 提高温度，增加多样性
+        stream: false
+      }),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      throw new Error(err.error?.message || `HTTP ${resp.status}`);
+    }
+
+    const data = await resp.json();
+    return data.choices[0].message.content || '';
+
+  } catch (err) {
+    console.warn('DeepSeek API调用失败，使用模拟内容', err);
+    showToast('AI服务暂时不可用，使用模拟内容');
+    return simulateAIResponse(messages, system);
+  }
+}
+
+// 模拟AI回复（优化后更自然）
+function simulateAIResponse(messages, system) {
+  const lastUserMsg = messages.filter(m => m.role === 'user').pop()?.content || '';
+  const systemLC = system.toLowerCase();
+
+  if (systemLC.includes('历史推演')) {
+    return '这一决策让广州城的空气骤然紧张。商馆外的水师战船升火待发，十三行的商人们惶恐不安。历史的车轮开始转向未知的方向……';
+  }
+  if (systemLC.includes('义律')) {
+    return '哼！林钦差，你这是在玩火！大英帝国的商船遍布四海，岂是你一道命令就能禁绝的？我奉劝你三思，否则后果自负！';
+  }
+  if (systemLC.includes('道光')) {
+    return '唉……朕也知道鸦片是祸害，可洋人船坚炮利，若真打起来，我大清能有几分胜算？你让朕再想想……';
+  }
+  if (systemLC.includes('评估')) {
+    return '{"security":2,"popularity":1,"economy":0,"prestige":1}';
+  }
+  if (systemLC.includes('立场解析')) {
+    return '【立场解析】义律的强硬根植于19世纪英国“自由贸易即正义”的信念，以及皇家海军庇护下的傲慢。对他而言，中国禁烟就是对英国商业权利的侵犯。【延伸】当时英国议会甚至有人主张直接占领中国沿海岛屿作为商站。';
+  }
+  if (systemLC.includes('个性化学习点评')) {
+    return '你的选择既有胆识又显智慧，尤其在强硬与温和间的权衡令人印象深刻。最值得肯定的是你试图理解对方立场后再反击。值得深思：若当时有国际法支持，中国能否避免战争？';
+  }
+  return '（模拟内容）历史充满复杂性，您的选择已经改变了一些走向。';
+}
+
+/* ========== 叙事 ========== */
+function startNarrative(){
+  if (S.started) return;
+  S.started = true;
+  S.phase = 'narrative';
+  S.narIdx = 0;
+  g('startBtn').disabled = true;
+  showNarSlide(0);
+}
+
+function showNarSlide(i){
+  const narText = g('narText');
+  if (narText) narText.innerHTML = textToHtml(NARRATIVES[i]);
+  g('narHint').style.display = 'block';
+  g('sceneLbl').textContent = '序章 · 历史背景';
+  g('nextBtn').disabled = false;
+  g('nextBtn').textContent = i < NARRATIVES.length-1 ? '继续 ▶' : '进入决策 ▶';
+}
+
+function advNarrative(){
+  if (S.phase !== 'narrative') return;
+  if (S.narIdx < NARRATIVES.length-1) {
+    S.narIdx++;
+    showNarSlide(S.narIdx);
+  } else {
+    enterDecision(0);
+  }
+}
+
+/* ========== AI叙事 ========== */
+async function showAiNarrative(opt, lvl){
+  const zone = g('aiNarZone');
+  zone.style.display = 'block';
+  zone.innerHTML = `<div class="ai-nar"><div class="ai-lbl"><div class="ai-lbl-dot"></div>AI 历史推演</div><div class="spin-wrap"><div class="spin-dots"><div class="sd"></div><div class="sd"></div><div class="sd"></div></div>正在推演历史后果……</div></div>`;
+
+  // 优化后的prompt，要求生动有画面感
+  const sys = '你是一位擅长讲故事的近代史专家，为初中生创作历史推演叙事。请用生动、有画面感的语言，描绘决策后的历史场景，包含细节和人物反应，120-150字。';
+  const ctx = `学生在虎门销烟第${lvl+1}层选择：${opt.text}（${opt.path}路线）。当前国家状态：安全${S.stats.security}、民心${S.stats.popularity}、经济${S.stats.economy}、声望${S.stats.prestige}。请描绘这一决策后接下来发生的故事。`;
+
+  try {
+    const text = await claude([{role:'user', content:ctx}], sys, 400);
+    zone.innerHTML = `<div class="ai-nar"><div class="ai-lbl"><div class="ai-lbl-dot"></div>AI 历史推演</div><div class="ai-nar-text">${textToHtml(text)}</div></div>`;
+  } catch (e) {
+    zone.innerHTML = `<div class="ai-nar"><div class="ai-lbl"><div class="ai-lbl-dot"></div>AI 历史推演</div><div class="ai-nar-text">（AI推演暂时无法连接，使用模拟内容）</div></div>`;
+  }
+}
+
+/* ========== 决策 ========== */
+function enterDecision(lvl){
+  S.phase = 'decision';
+  S.level = lvl;
+  S.chosen = null;
+  refreshDots();
+  // 通知投票面板
+  if (typeof VP !== 'undefined' && VP.panelOpen) setTimeout(vpSetupVote, 80);
+
+  ['narCard','aiNarZone','dialogueZone','outcomeZone'].forEach(id => {
+    const el = g(id);
+    if (el) el.style.display = 'none';
+  });
+
+  const lv = LEVELS[lvl];
+  g('sceneLbl').textContent = `第${lvl+1}层决策 / 共4层`;
+
+  const opts = lv.options.filter(o => !o.requires || o.requires === S.path);
+
+  const optsHtml = opts.map(o => {
+    return `<div class="opt" data-id="${escapeHTML(o.id)}">
+      <div class="opt-head"><span class="badge ${o.badge}">${escapeHTML(o.bt)}</span>
+      <span class="opt-text">${escapeHTML(o.text)}</span></div>
+      <div class="opt-hint">${escapeHTML(o.hint)}</div>
+    </div>`;
+  }).join('');
+
+  const decisionZone = g('decisionZone');
+  decisionZone.innerHTML = `
+    <div class="dec-wrap">
+      <div class="dec-header">
+        <div class="dec-title">${escapeHTML(lv.title)}</div>
+        <div class="dec-ctx">${escapeHTML(lv.context)}</div>
+      </div>
+      <div class="opts-grid" id="optsWrap">${optsHtml}</div>
+      <div class="sub-row">
+        <button class="sub-btn" id="subBtn" disabled>提 交 决 策</button>
+        <div id="fxPrev" class="fx-prev"></div>
+      </div>
+    </div>`;
+  decisionZone.style.display = 'block';
+  g('nextBtn').disabled = true;
+
+  document.querySelectorAll('#optsWrap .opt').forEach(el => {
+    el.addEventListener('click', function(){
+      document.querySelectorAll('#optsWrap .opt').forEach(x => x.classList.remove('sel'));
+      this.classList.add('sel');
+      const id = this.getAttribute('data-id');
+      S.chosen = opts.find(o => o.id === id);
+      g('subBtn').disabled = false;
+      g('fxPrev').innerHTML = fxHtml(S.chosen.effects);
+    });
+  });
+
+  const subBtn = g('subBtn');
+  subBtn.replaceWith(subBtn.cloneNode(true));
+  g('subBtn').addEventListener('click', submitDecision);
+}
+
+async function submitDecision(){
+  if (!S.chosen) return;
+  const opt = S.chosen;
+  const lvl = S.level;
+
+  if (lvl === 0) S.path = opt.path;
+  refreshStats(opt.effects);
+  pushHistory(`第${lvl+1}层`, opt.text);
+
+  g('decisionZone').style.display = 'none';
+  S.phase = 'result';
+  refreshDots();
+  showToast('决策已提交');
+
+  await showAiNarrative(opt, lvl);
+  buildDialogue(lvl, opt);
+
+  const nextBtn = g('nextBtn');
+  nextBtn.disabled = false;
+  if (opt.outcome) {
+    nextBtn.textContent = '查看历史结局 ▶';
+    nextBtn.onclick = () => showOutcome(opt.outcome);
+  } else {
+    nextBtn.textContent = '进入下一层决策 ▶';
+    nextBtn.onclick = () => enterDecision(lvl + 1);
+  }
+}
+
+/* ========== 立场对话 ========== */
+function buildDialogue(lvl, opt){
+  S.dlg = {figure:'义律', round:0, msgs:[], sending:false, done:false};
+  g('dialogueZone').style.display = 'block';
+  renderDlg(lvl, opt);
+  initFigure(lvl, opt);
+}
+
+function renderDlg(lvl, opt){
+  const fig = S.dlg.figure;
+  const angles = ANGLES[fig] || [];
+  let pipsHtml = '';
+  for (let i = 0; i < 4; i++) {
+    let cls = i < S.dlg.round ? 'done' : (i === S.dlg.round && !S.dlg.done ? 'cur' : '');
+    pipsHtml += `<div class="rpip ${cls}">${i+1}</div>`;
+  }
+  const anglesHtml = angles.map((a, i) => {
+    return `<div class="angle-card" data-idx="${i}"><div class="acard-head">${escapeHTML(a.head)}</div><div class="acard-body">${escapeHTML(a.body)}</div></div>`;
+  }).join('');
+
+  const zone = g('dialogueZone');
+  zone.innerHTML = `
+    <div class="dlg-outer">
+      <div class="dlg-header">
+        <div><div class="dlg-htitle">立场对话室</div><div class="dlg-hsub">理解历史人物的逻辑，而不只是反驳他</div></div>
+        <div class="fig-tabs">
+          <button class="fig-tab${fig==='义律'?' on':''}" data-fig="义律">义律</button>
+          <button class="fig-tab${fig==='道光皇帝'?' on':''}" data-fig="道光皇帝">道光皇帝</button>
+        </div>
+      </div>
+      <div class="round-bar">
+        <div class="rpips">${pipsHtml}</div>
+        <div class="rlabel">${S.dlg.done ? '对话已结束' : `第${S.dlg.round+1}轮 / 共4轮`}</div>
+      </div>
+      <div class="angle-section">
+        <div class="angle-lbl">选择一个探索角度，或直接在下方输入</div>
+        <div class="angle-cards-wrap" id="angleWrap">${anglesHtml}</div>
+      </div>
+      <div class="dlg-msgs" id="dlgMsgs"></div>
+      <div class="dlg-footer">
+        <button class="collect-btn" id="collectBtn" title="开启收集 → 学生手机提交论点 → 点选发送" ${S.dlg.done?'disabled':''}>📱收集论点</button>
+        <input class="dlg-input" id="dlgInput" placeholder="选择论点或直接输入……" ${S.dlg.done ? 'disabled' : ''} />
+        <button class="dlg-send" id="dlgSend" ${S.dlg.done ? 'disabled' : ''}>发 送</button>
+      </div>
+    </div>`;
+
+  zone.querySelectorAll('.fig-tab').forEach(btn => {
+    btn.addEventListener('click', function(){
+      if (S.dlg.sending) return;
+      S.dlg.figure = this.getAttribute('data-fig');
+      S.dlg.round = 0;
+      S.dlg.msgs = [];
+      S.dlg.done = false;
+      renderDlg(lvl, opt);
+      initFigure(lvl, opt);
+    });
+  });
+
+  zone.querySelectorAll('.angle-card').forEach(card => {
+    card.addEventListener('click', function(){
+      if (S.dlg.done || S.dlg.sending) return;
+      zone.querySelectorAll('.angle-card').forEach(c => c.classList.remove('picked'));
+      this.classList.add('picked');
+      const idx = parseInt(this.getAttribute('data-idx'));
+      g('dlgInput').value = ANGLES[S.dlg.figure][idx].body;
+      g('dlgInput').focus();
+    });
+  });
+
+  g('dlgSend').addEventListener('click', sendDlg);
+  g('collectBtn').addEventListener('click', () => vpOpenArgs());
+  g('dlgInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendDlg();
+    }
+  });
+
+  S.dlg.msgs.forEach(m => addBubble(m.role, m.name, m.text, m.insight));
+}
+
+async function initFigure(lvl, opt){
+  const fig = S.dlg.figure;
+  // 优化prompt，要求语言生动，有情绪
+  const sys = figSys(fig) + ' 请用生动、口语化的语言，仿佛在当面争论，可加入感叹词，展现人物情绪。';
+  const ctx = `学生（林则徐）刚做出决策：${opt.text}。以${fig}身份，用第一人称说一句对这个决策的第一反应（50-70字），要像戏剧对白一样有张力。`;
+  addBubble('ai', fig, '……', null);
+  try {
+    const t = await claude([{role:'user', content:ctx}], sys, 200);
+    updateLastBubble(t);
+    S.dlg.msgs.push({role:'ai', name:fig, text:t, insight:null});
+  } catch (e) {
+    updateLastBubble('（连接失败，请重试）');
+  }
+}
+
+async function sendDlg(){
+  if (S.dlg.sending || S.dlg.done) return;
+  const inp = g('dlgInput');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = '';
+  S.dlg.sending = true;
+  g('dlgSend').disabled = true;
+
+  const fig = S.dlg.figure;
+  addBubble('user', '你（林则徐）', msg, null);
+  S.dlg.msgs.push({role:'user', name:'你（林则徐）', text:msg, insight:null});
+  S.dlg.round++;
+  const isLast = S.dlg.round >= 4;
+
+  const apiMsgs = S.dlg.msgs.map(m => ({
+    role: m.role === 'user' ? 'user' : 'assistant',
+    content: m.text
+  }));
+
+  try {
+    // 人物回复，同样要求生动
+    const replyCtx = isLast
+      ? '这是第4轮最后对话。请回复（50-70字），语气稍微软化，承认对方有一定道理，但仍坚持核心立场，语言要自然。'
+      : '请回复学生论点（50-70字），用自己的历史逻辑反驳或回应，语言要像真实对话，可带情绪。';
+    const apiCopy = [...apiMsgs, {role:'user', content:replyCtx}];
+    const reply = await claude(apiCopy, figSys(fig), 250);
+
+    // 评估论点质量
+    const evalSys = '你是历史教育评估AI。根据学生论点质量输出JSON，格式：{"security":0,"popularity":0,"economy":0,"prestige":0}，每项范围-5到5。有具体史实+3到5；能理解对方立场+2到3；泛泛而谈0；跑题-2。只输出JSON。';
+    const evalCtx = `学生论点："${msg}"。背景：${fig}与林则徐1839年鸦片禁令对话。`;
+    const evalStr = await claude([{role:'user', content:evalCtx}], evalSys, 100);
+    try {
+      const jsonMatch = evalStr.match(/```json\s*([\s\S]*?)\s*```/) || evalStr.match(/{[\s\S]*}/);
+      const delta = JSON.parse(jsonMatch ? jsonMatch[1] || jsonMatch[0] : '{}');
+      refreshStats(delta);
+      showToast('论点质量影响了国家状态');
+    } catch (e2) {
+      console.warn('解析评估JSON失败', e2);
+    }
+
+    let insight = null;
+    if (isLast) {
+      const anaSys = '你是历史教育专家，为中学生写立场解析，120字以内。包含：这个人物逻辑的历史根源（约80字）+一句课标之外延伸知识（约40字，用"【延伸】"开头）。语言通俗易懂，有启发性。';
+      const anaCtx = `完成与${fig}的4轮对话，学生路线：${S.path || '未知'}。生成对${fig}历史立场的解析。`;
+      insight = await claude([{role:'user', content:anaCtx}], anaSys, 300);
+      S.dlg.done = true;
+      g('dlgInput').disabled = true;
+      g('dlgSend').disabled = true;
+      const rlabel = document.querySelector('.rlabel');
+      if (rlabel) rlabel.textContent = '对话已结束';
+      document.querySelectorAll('.rpip').forEach(p => p.className = 'rpip done');
+      showToast('立场解析已解锁，查看下方内容');
+    }
+
+    addBubble('ai', fig, reply, insight);
+    S.dlg.msgs.push({role:'ai', name:fig, text:reply, insight});
+
+    if (!isLast) {
+      const pips = document.querySelectorAll('.rpip');
+      pips.forEach((p, i) => {
+        p.className = 'rpip' + (i < S.dlg.round ? ' done' : (i === S.dlg.round ? ' cur' : ''));
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    addBubble('ai', fig, '（连接失败，请重试）', null);
+  } finally {
+    S.dlg.sending = false;
+    if (!S.dlg.done) g('dlgSend').disabled = false;
+  }
+}
+
+function figSys(fig){
+  if (fig === '义律') {
+    return '你是1839年英国驻华商务监督查理·义律，傲慢强硬，坚信自由贸易神圣不可侵犯，认为中国禁烟是对英国商业权利的干涉。说话带傲慢和威胁口吻，多用反问句。';
+  }
+  return '你是1839年的道光皇帝，面临内忧外患，痛恨鸦片毒害百姓，又深恐与英国开战。性格犹豫保守，语气忧虑、纠结，常用“朕……”、“唉……”开头。';
+}
+
+function addBubble(role, name, text, insight){
+  const box = g('dlgMsgs');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  if (role === 'ai') div.setAttribute('data-last', '1');
+
+  let insightHtml = '';
+  if (insight) {
+    const parts = insight.split('【延伸】');
+    const main = parts[0].trim();
+    const beyond = parts[1] ? parts[1].trim() : '';
+    insightHtml = `<div class="insight">
+      <div class="insight-title"><span>&#127919;</span> 立场解析</div>
+      <div class="insight-body">${textToHtml(main)}${beyond ? `<div class="beyond"><b>【延伸】</b>${textToHtml(beyond)}</div>` : ''}</div>
+    </div>`;
+  }
+
+  div.innerHTML = `<div class="msg-name">${escapeHTML(name)}</div><div class="bubble">${textToHtml(text)}${insightHtml}</div>`;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function updateLastBubble(text){
+  const box = g('dlgMsgs');
+  const last = box.querySelector('.msg.ai[data-last="1"]:last-child');
+  if (last) {
+    const bubble = last.querySelector('.bubble');
+    if (bubble) bubble.innerHTML = textToHtml(text);
+    last.removeAttribute('data-last');
+  }
+  box.scrollTop = box.scrollHeight;
+}
+
+/* ========== 结局 ========== */
+function showOutcome(key){
+  S.phase = 'outcome';
+  g('decisionZone').style.display = 'none';
+  g('dialogueZone').style.display = 'none';
+
+  const od = OUTCOME_INFO[key] || {title:key, sub:'', color:'#4a3a20'};
+
+  const steps = S.history.map((h, i) => {
+    return `<div class="path-node"><div class="path-n">${i+1}</div><div class="path-t">${escapeHTML(h.tx)}</div></div>`;
+  }).join('');
+
+  const fstats = ['security','popularity','economy','prestige'].map(k => {
+    const v = S.stats[k];
+    const c = v >= 60 ? '#1b5e20' : (v >= 35 ? '#b54200' : '#9b2226');
+    return `<div class="stat-cell"><div class="sc-l">${SNAMES[k]}</div><div class="sc-v" style="color:${c}">${v}</div></div>`;
+  }).join('');
+
+  const outcomeZone = g('outcomeZone');
+  outcomeZone.innerHTML = `
+    <div class="outcome-hero">
+      <div class="seal-ring" style="color:${od.color}">终局</div><br>
+      <div class="outcome-title" style="color:${od.color}">${escapeHTML(od.title)}</div>
+      <div class="outcome-sub">${escapeHTML(od.sub)}</div>
+    </div>
+    <div class="out-block"><h3>你的决策路径</h3>${steps}</div>
+    <div class="out-block"><h3>最终国家状态</h3><div class="stat-grid">${fstats}</div></div>
+    <div class="eval-block" id="evalBlock">
+      <div class="eval-title">&#10024; AI 个性化学习点评</div>
+      <div class="eval-text" id="evalText"><div class="spin-wrap" style="color:#5a4020"><div class="spin-dots"><div class="sd" style="background:#c9a84c"></div><div class="sd" style="background:#c9a84c"></div><div class="sd" style="background:#c9a84c"></div></div>正在生成专属点评……</div></div>
+    </div>
+    <div class="report-block" id="classReport" style="display:none">
+      <div class="report-title">&#128202; 班级决策报告</div>
+      <div id="reportBody"></div>
+    </div>
+    <div class="replay-wrap"><button class="replay-btn" id="replayBtn">&#128260; 重新体验，探索其他路线</button></div>`;
+
+  outcomeZone.style.display = 'block';
+  g('replayBtn').addEventListener('click', showResetModal);
+  g('nextBtn').disabled = true;
+  g('sceneLbl').textContent = '终章 · 历史终局';
+
+  ['d0','d1','d2','d3'].forEach(id => {
+    const d = g(id);
+    if (d) { d.className = 'prog-pip done'; d.textContent = ['一','二','三','四'][id.slice(1)]; }
+  });
+
+  generateEval();
+  vpShowReport();
+}
+
+async function generateEval(){
+  const pathStr = S.history.map((h,i) => `第${i+1}层：${h.tx}`).join('；');
+  const sys = '你是温和风趣的中学历史老师，200字以内的个性化点评：①对该路线历史理解的评价，②最有价值的一个决策，③一个值得深思的问题。语言亲切，可带幽默感。';
+  const ctx = `学生完成虎门销烟历史沙盘。路线：${S.path || '未知'}。决策：${pathStr}。最终状态：安全${S.stats.security}、民心${S.stats.popularity}、经济${S.stats.economy}、声望${S.stats.prestige}。`;
+
+  try {
+    const text = await claude([{role:'user', content:ctx}], sys, 500);
+    const el = g('evalText');
+    if (el) el.innerHTML = textToHtml(text);
+  } catch (e) {
+    const el = g('evalText');
+    if (el) el.innerHTML = '（AI点评暂时无法连接）';
+  }
+}
+
+/* ========== 重置 ========== */
+function showResetModal(){ g('resetModal').style.display = 'flex'; }
+function hideResetModal(){ g('resetModal').style.display = 'none'; }
+function doReset(){
+  hideResetModal();
+  S = {
+    stats: {security:75, popularity:65, economy:60, prestige:50},
+    phase: 'idle',
+    narIdx: 0,
+    level: 0,
+    path: null,
+    chosen: null,
+    history: [],
+    started: false,
+    dlg: {figure:'义律', round:0, msgs:[], sending:false, done:false}
+  };
+  refreshStats(null);
+  refreshDots();
+  g('histLog').innerHTML = '<div style="color:#3a2a10;font-size:.65em;letter-spacing:1px">尚未做出任何决策</div>';
+  g('startBtn').disabled = false;
+  g('nextBtn').disabled = true;
+  g('nextBtn').textContent = '继续 ▼';
+  g('nextBtn').onclick = advNarrative;
+  g('narCard').style.display = 'block';
+  ['aiNarZone','dialogueZone','decisionZone','outcomeZone'].forEach(id => {
+    const el = g(id);
+    if (el) el.style.display = 'none';
+  });
+  g('narText').innerHTML = textToHtml('欢迎进入历史沙盘。点击左侧「开始叙事」，踏入1839年的广州。');
+  g('narHint').style.display = 'none';
+  g('sceneLbl').textContent = '序章 · 背景';
+  showToast('游戏已重置');
+}
+
+/* ========== 史料库 ========== */
+g('historyBtn').addEventListener('click', () => {
+  const panel = g('historyPanel');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+});
+g('closeHistory').addEventListener('click', () => {
+  g('historyPanel').style.display = 'none';
+});
+
+/* ========== 初始化事件绑定 ========== */
+g('welcomeBtn').addEventListener('click', () => g('welcomeModal').style.display = 'none');
+g('startBtn').addEventListener('click', startNarrative);
+g('nextBtn').addEventListener('click', advNarrative);
+g('narCard').addEventListener('click', () => { if (S.phase === 'narrative') advNarrative(); });
+g('resetBtn').addEventListener('click', showResetModal);
+g('cancelReset').addEventListener('click', hideResetModal);
+g('confirmReset').addEventListener('click', doReset);
+
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && S.phase === 'narrative') {
+    e.preventDefault();
+    advNarrative();
+  }
+});
+
+refreshStats(null);
+
+/* ══════════════════════════════════════
+   班级互动系统（投票 + 论点收集）
+══════════════════════════════════════ */
+const VP = {
+  mode: null,       // 'vote' | 'args' | null
+  active: false,
+  options: [],      // 当前层决策选项
+  votes: {},        // {optId: count}
+  args: [],         // [{id,text}]
+  history: [],      // [{level, title, votes, winner}]
+  pollTimer: null,
+  panelOpen: false,
+};
+
+/* ── 面板开关 ── */
+g('interactBtn').addEventListener('click', () => {
+  VP.panelOpen = !VP.panelOpen;
+  g('sidePanel').classList.toggle('open', VP.panelOpen);
+  g('interactBtn').classList.toggle('on', VP.panelOpen);
+  if (VP.panelOpen && S.phase === 'decision') vpSetupVote();
+});
+g('spClose').addEventListener('click', () => {
+  VP.panelOpen = false;
+  g('sidePanel').classList.remove('open');
+  g('interactBtn').classList.remove('on');
+});
+
+/* ── 进入决策层时初始化投票 ── */
+// (enterDecision hook removed - was causing infinite recursion)
+
+function vpSetupVote() {
+  if (S.phase !== 'decision') return;
+  const lv = LEVELS[S.level];
+  VP.options = lv.options.filter(o => !o.requires || o.requires === S.path);
+  VP.mode = 'vote';
+  g('spTitle').textContent = '班级投票';
+  g('spStatus').textContent = '点击「开启投票」，学生手机扫码选择';
+  g('spStatus').className = 'sp-status';
+  g('spQR').style.display = 'none';
+  g('spContent').innerHTML = '';
+  g('spStartBtn').textContent = '▶ 开启投票';
+  g('spStartBtn').disabled = false;
+  g('spEndBtn').disabled = true;
+}
+
+/* ── 论点收集模式 ── */
+function vpOpenArgs() {
+  VP.mode = 'args';
+  VP.args = [];
+  VP.active = true;
+  VP.panelOpen = true;
+  g('sidePanel').classList.add('open');
+  g('interactBtn').classList.add('on');
+  g('spTitle').textContent = '论点收集';
+  g('spStatus').textContent = '● 收集中，学生扫码提交论点';
+  g('spStatus').className = 'sp-status live';
+  g('spStartBtn').disabled = true;
+  g('spEndBtn').disabled = false;
+  g('spEndBtn').textContent = '⏹ 停止收集';
+  vpShowQR('args');
+  vpRenderArgs();
+  fetch(API_BASE + '/api/session/start', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({type:'args', title:'提交你的论点'})
+  }).catch(()=>{});
+  VP.pollTimer = setInterval(vpPollArgs, 2000);
+  showToast('论点收集已开启，学生可扫码提交');
+}
+
+async function vpPollArgs() {
+  try {
+    const r = await fetch(API_BASE + '/api/session/state');
+    const d = await r.json();
+    if (d.args && d.args.length !== VP.args.length) {
+      VP.args = d.args;
+      vpRenderArgs();
+    }
+  } catch(e) {}
+}
+
+function vpRenderArgs() {
+  const area = g('spContent');
+  if (!VP.args.length) {
+    area.innerHTML = '<div class="arg-empty">等待学生提交论点…</div>';
+    return;
+  }
+  area.innerHTML = VP.args.map((a, i) =>
+    `<div class="arg-item" data-txt="${escapeHTML(a.text)}" onclick="vpSelectArg(this)">
+      <div class="arg-no">论点 ${i+1}</div>
+      <div class="arg-txt">${escapeHTML(a.text)}</div>
+    </div>`
+  ).join('');
+}
+
+function vpSelectArg(el) {
+  document.querySelectorAll('.arg-item').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
+  const txt = el.getAttribute('data-txt');
+  const inp = g('dlgInput');
+  if (inp) { inp.value = txt; inp.focus(); }
+  showToast('论点已选定，点击发送代表全班出战');
+}
+
+/* ── 投票流程 ── */
+g('spStartBtn').addEventListener('click', async () => {
+  if (VP.mode === 'vote') {
+    VP.votes = {};
+    VP.options.forEach(o => VP.votes[o.id] = 0);
+    VP.active = true;
+    g('spStatus').textContent = '● 投票进行中…';
+    g('spStatus').className = 'sp-status live';
+    g('spStartBtn').disabled = true;
+    g('spEndBtn').disabled = false;
+    g('spEndBtn').textContent = '⏹ 结束 · 公布结果';
+    vpShowQR('vote');
+    vpRenderBars();
+    try {
+      await fetch(API_BASE + '/api/session/start', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          type:'vote', title: LEVELS[S.level].title,
+          options: VP.options.map(o => ({id:o.id, text:o.text, badge:o.bt}))
+        })
+      });
+    } catch(e) { showToast('投票服务未启动，请先运行 server.js'); return; }
+    VP.pollTimer = setInterval(vpPollVotes, 2000);
+    showToast('投票已开启，学生可扫码参与');
+  }
+});
+
+g('spEndBtn').addEventListener('click', async () => {
+  clearInterval(VP.pollTimer);
+  VP.active = false;
+  try { await fetch(API_BASE + '/api/session/end', {method:'POST'}); } catch(e){}
+
+  if (VP.mode === 'vote') {
+    g('spStatus').textContent = '投票结束';
+    g('spStatus').className = 'sp-status';
+    g('spQR').style.display = 'none';
+    g('spEndBtn').disabled = true;
+    vpRenderBars(true); // show winner highlight
+    // 保存到历史
+    const total = Object.values(VP.votes).reduce((a,b)=>a+b,0);
+    let winnerId = null, maxV = 0;
+    VP.options.forEach(o => { if((VP.votes[o.id]||0) > maxV){ maxV=VP.votes[o.id]||0; winnerId=o.id; }});
+    const winner = VP.options.find(o=>o.id===winnerId);
+    VP.history.push({
+      level: S.level+1,
+      title: LEVELS[S.level].title,
+      votes: Object.fromEntries(VP.options.map(o=>[o.id,{text:o.text,badge:o.bt,cnt:VP.votes[o.id]||0}])),
+      winner: winner ? winner.id : null,
+      total
+    });
+    showToast('结果已公布');
+  } else if (VP.mode === 'args') {
+    g('spStatus').textContent = '论点收集结束';
+    g('spStatus').className = 'sp-status';
+    g('spQR').style.display = 'none';
+    g('spEndBtn').disabled = true;
+    showToast('收集结束，请从列表选择最佳论点');
+  }
+});
+
+async function vpPollVotes() {
+  try {
+    const r = await fetch(API_BASE + '/api/session/state');
+    const d = await r.json();
+    if (d.votes) { VP.votes = d.votes; vpRenderBars(false); }
+  } catch(e) {}
+}
+
+function vpRenderBars(showWinner) {
+  const opts = VP.options;
+  const total = Object.values(VP.votes).reduce((a,b)=>a+b,0);
+  const maxV = Math.max(...opts.map(o=>VP.votes[o.id]||0), 1);
+
+  let html = opts.map(o => {
+    const cnt = VP.votes[o.id] || 0;
+    const pct = total ? Math.round(cnt/total*100) : 0;
+    const isLead = cnt === maxV && cnt > 0;
+    return `<div class="vbar-row">
+      <div class="vbar-head">
+        <span class="vbar-text">[${escapeHTML(o.bt)}] ${escapeHTML(o.text)}</span>
+        <span class="vbar-cnt">${cnt}</span>
+      </div>
+      <div class="vbar-track">
+        <div class="vbar-fill${isLead?' lead':''}" style="width:${pct}%"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  html += `<div class="vote-total">共 ${total} 票</div>`;
+
+  if (showWinner && total > 0) {
+    const winnerId = opts.reduce((best,o)=>(VP.votes[o.id]||0)>(VP.votes[best]||0)?o.id:best, opts[0].id);
+    const winner = opts.find(o=>o.id===winnerId);
+    const wpct = Math.round((VP.votes[winnerId]||0)/total*100);
+    html += `<div class="vote-winner">🏆 全班选择<br>${escapeHTML(winner.text)}<br>
+      <span style="color:var(--gold3);font-size:.85em">${VP.votes[winnerId]||0}票 · ${wpct}%</span></div>`;
+  }
+  g('spContent').innerHTML = html;
+}
+
+function vpShowQR(type) {
+  const fullUrl = window.location.origin + '/vote';
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(fullUrl)}`;
+  g('spQRImg').src = qrUrl;
+  g('spQRUrl').textContent = fullUrl;
+  g('spQR').style.display = 'flex';
+}
+
+/* ── 班级报告（结局页） ── */
+function vpShowReport() {
+  if (!VP.history.length) return;
+  const block = g('classReport');
+  const body = g('reportBody');
+  if (!block || !body) return;
+
+  body.innerHTML = VP.history.map(h => {
+    const opts = Object.values(h.votes);
+    const barsHtml = opts.map(v =>
+      `<span class="rv-item${v.id === h.winner ? ' win' : ''}">${escapeHTML(v.badge)} ${v.cnt}票</span>`
+    ).join('');
+    const winOpt = h.votes[h.winner];
+    return `<div class="report-row">
+      <div class="report-lv">第${h.level}层 · ${escapeHTML(h.title)}</div>
+      <div class="report-opt">${winOpt ? '全班选择：' + escapeHTML(winOpt.text) : '无投票数据'}</div>
+      <div class="report-votes">${barsHtml}</div>
+    </div>`;
+  }).join('');
+
+  block.style.display = 'block';
+}
+
+}());
+</script>
+</body>
+</html>
