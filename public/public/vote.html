@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>历史沙盘 · 学生参与</title>
+<link href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+:root{
+  --ink:#0d0a05; --paper:#f2e8d0; --red:#9b2226;
+  --gold:#c9a84c; --gold2:#e8c86e; --gold3:#7a5e1e;
+  --fade:#7a6645; --border:#c8b080;
+}
+html,body{ height:100%; }
+body{ font-family:'Noto Sans SC',sans-serif; background:var(--ink); color:var(--paper); min-height:100vh; display:flex; flex-direction:column; }
+
+.header{ padding:16px 20px 12px; border-bottom:1px solid rgba(201,168,76,.2); background:linear-gradient(180deg,#0d0a05,#140f07); flex-shrink:0; }
+.header-title{ font-family:'Ma Shan Zheng',serif; color:var(--gold); font-size:1.15em; letter-spacing:5px; margin-bottom:3px; }
+.header-sub{ font-size:.6em; color:#5a4820; letter-spacing:2px; }
+
+#app{ flex:1; display:flex; flex-direction:column; padding:16px; gap:12px; }
+
+.status{ padding:10px 14px; border:1px solid rgba(201,168,76,.2); border-radius:3px; font-size:.7em; letter-spacing:2px; text-align:center; color:#5a4820; transition:all .3s; }
+.status.live{ color:#6aaa6a; border-color:rgba(90,170,90,.3); }
+.status.done{ color:var(--gold2); border-color:rgba(201,168,76,.3); }
+.pulse{ display:inline-block; width:7px; height:7px; border-radius:50%; background:#6aaa6a; margin-right:6px; vertical-align:middle; animation:blink 1.5s infinite; }
+@keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
+
+.question{ padding:12px 14px; background:rgba(155,34,38,.06); border-left:3px solid var(--red); border-radius:0 3px 3px 0; }
+.q-label{ font-size:.58em; color:var(--fade); letter-spacing:2px; margin-bottom:5px; }
+.q-text{ font-family:'Noto Serif SC',serif; font-size:.88em; color:var(--paper); line-height:1.7; }
+
+.opts{ display:flex; flex-direction:column; gap:9px; }
+.opt{ border:1px solid rgba(200,176,128,.25); border-radius:3px; padding:13px 14px 13px 44px; background:linear-gradient(135deg,rgba(242,232,208,.05),rgba(232,220,192,.03)); cursor:pointer; transition:all .18s; position:relative; }
+.opt::before{ content:''; position:absolute; left:14px; top:50%; transform:translateY(-50%); width:20px; height:20px; border-radius:50%; border:1.5px solid rgba(201,168,76,.3); }
+.opt:active{ transform:scale(.98); }
+.opt.sel{ border-color:var(--gold); background:rgba(201,168,76,.08); }
+.opt.sel::before{ background:var(--gold); border-color:var(--gold); content:'✓'; color:var(--ink); font-size:.7em; display:flex; align-items:center; justify-content:center; font-weight:700; }
+.opt-badge{ display:inline-block; font-size:.55em; padding:2px 7px; border-radius:2px; font-weight:700; letter-spacing:2px; margin-bottom:5px; }
+.hard{ background:rgba(155,34,38,.15); color:#ff8888; border:1px solid rgba(155,34,38,.3); }
+.soft{ background:rgba(27,94,32,.15); color:#88cc88; border:1px solid rgba(27,94,32,.3); }
+.smart{ background:rgba(27,58,107,.15); color:#88aaff; border:1px solid rgba(27,58,107,.3); }
+.opt-text{ font-family:'Noto Serif SC',serif; font-size:.86em; color:#e8d8b0; line-height:1.6; }
+
+.args-area{ display:flex; flex-direction:column; gap:10px; }
+.arg-tip{ font-size:.65em; color:var(--fade); letter-spacing:1px; line-height:1.7; padding:8px 10px; background:rgba(201,168,76,.04); border-radius:2px; }
+.arg-input{ width:100%; height:120px; padding:12px 14px; background:rgba(242,232,208,.06); border:1px solid rgba(200,176,128,.3); border-radius:3px; color:var(--paper); font-family:'Noto Serif SC',serif; font-size:.88em; line-height:1.8; resize:none; outline:none; transition:border-color .2s; }
+.arg-input:focus{ border-color:var(--gold); }
+.arg-input::placeholder{ color:#3a2a10; }
+.arg-count{ font-size:.6em; color:#3a2a10; text-align:right; letter-spacing:1px; }
+
+.submit-btn{ width:100%; padding:14px; background:linear-gradient(135deg,var(--red),#7a1518); border:none; border-radius:3px; font-family:'Ma Shan Zheng',serif; font-size:1em; letter-spacing:5px; color:#fde8e8; cursor:pointer; box-shadow:0 3px 0 #5a0e10; transition:all .15s; position:relative; top:0; margin-top:auto; }
+.submit-btn:active:not(:disabled){ top:3px; box-shadow:none; }
+.submit-btn:disabled{ opacity:.35; cursor:not-allowed; box-shadow:none; }
+
+.result-bars{ display:flex; flex-direction:column; gap:9px; }
+.rbar-head{ display:flex; justify-content:space-between; font-size:.68em; margin-bottom:3px; color:#8a7048; }
+.rbar-text{ max-width:75%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#c8a850; }
+.rbar-cnt{ color:var(--gold); font-family:'Ma Shan Zheng',serif; }
+.rbar-track{ height:14px; background:rgba(255,255,255,.04); border-radius:2px; overflow:hidden; }
+.rbar-fill{ height:100%; background:linear-gradient(90deg,#2a5a3a,#4a9a5a); border-radius:2px; transition:width .5s ease; }
+.rbar-fill.me{ background:linear-gradient(90deg,#7a3a1a,var(--gold)); }
+
+.submitted-ok{ text-align:center; padding:20px 0 4px; font-family:'Ma Shan Zheng',serif; color:var(--gold2); font-size:1.05em; letter-spacing:3px; }
+.submitted-sub{ text-align:center; font-size:.62em; color:var(--fade); letter-spacing:2px; margin-bottom:10px; }
+.refresh-tip{ text-align:center; font-size:.58em; color:#2a1a08; letter-spacing:1px; padding:8px 0 4px; flex-shrink:0; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">历史沙盘 · 班级参与</div>
+  <div class="header-sub">1839 · 虎门销烟 · 你的选择决定历史</div>
+</div>
+<div id="app"><div class="status">⏳ &nbsp;等待老师开启…</div></div>
+<div class="refresh-tip">每 2 秒自动更新</div>
+
+<script>
+const BASE = location.origin;
+const KEY_C = 'hs_choice', KEY_S = 'hs_sid';
+let myChoice = null;
+
+function esc(s){ return String(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[m]); }
+function bc(b){ return b==='强硬路线'||b==='强硬'?'hard':b==='温和路线'||b==='温和'?'soft':'smart'; }
+
+async function tick(){
+  let d;
+  try{ const r=await fetch(BASE+'/api/session/state'); d=await r.json(); }
+  catch(e){ document.getElementById('app').innerHTML='<div class="status">⚠️ 无法连接，请检查WiFi</div>'; return; }
+
+  const sid = (d.type||'')+'_'+(d.startTime||'0');
+  if(sid !== localStorage.getItem(KEY_S)){ localStorage.removeItem(KEY_C); localStorage.setItem(KEY_S,sid); myChoice=null; }
+  myChoice = localStorage.getItem(KEY_C);
+
+  const app = document.getElementById('app');
+
+  if(!d.active && !myChoice){
+    app.innerHTML='<div class="status">⏳ &nbsp;等待老师开启…</div>'; return;
+  }
+  if(d.type==='vote' && d.active && !myChoice){
+    const opts=(d.options||[]).map(o=>`<div class="opt" id="o_${esc(o.id)}" onclick="sel('${esc(o.id)}')">`+
+      `<div><span class="opt-badge ${bc(o.badge)}">${esc(o.badge)}</span></div>`+
+      `<div class="opt-text">${esc(o.text)}</div></div>`).join('');
+    app.innerHTML=`<div class="status live"><span class="pulse"></span>投票进行中，请选择</div>`+
+      `<div class="question"><div class="q-label">本轮决策</div><div class="q-text">${esc(d.title)}</div></div>`+
+      `<div class="opts">${opts}</div>`+
+      `<button class="submit-btn" id="sb" disabled onclick="subVote()">确 认 选 择</button>`;
+    return;
+  }
+  if(d.type==='args' && d.active && !myChoice){
+    app.innerHTML=`<div class="status live"><span class="pulse"></span>论点收集中</div>`+
+      `<div class="question"><div class="q-label">提交论点</div><div class="q-text">为全班AI辩论提供论据，引用史实更有力</div></div>`+
+      `<div class="args-area"><div class="arg-tip">📝 例："英国工业革命后急需市场，鸦片贸易是蓄意的经济侵略…"</div>`+
+      `<textarea class="arg-input" id="at" placeholder="写下你的论点（10~200字）…" maxlength="200" oninput="cnt(this)"></textarea>`+
+      `<div class="arg-count" id="ac">0 / 200</div></div>`+
+      `<button class="submit-btn" id="sb" disabled onclick="subArg()">提 交 论 点</button>`;
+    return;
+  }
+  // 已提交 or 结束
+  const total=Object.values(d.votes||{}).reduce((a,b)=>a+b,0);
+  const st=d.active?`<div class="status live"><span class="pulse"></span>已提交，等待结果…</div>`:`<div class="status done">✅ 投票结束 · 最终结果</div>`;
+  let bars='';
+  if(d.type==='vote'&&d.options){
+    bars=d.options.map(o=>{
+      const cnt=(d.votes||{})[o.id]||0, pct=total?Math.round(cnt/total*100):0, me=myChoice===o.id;
+      return `<div><div class="rbar-head"><span class="rbar-text">${me?'✓ ':''}${esc(o.badge)}·${esc(o.text)}</span><span class="rbar-cnt">${cnt}票</span></div>`+
+        `<div class="rbar-track"><div class="rbar-fill${me?' me':''}" style="width:${pct}%"></div></div></div>`;
+    }).join('');
+  } else {
+    bars=`<div class="arg-tip">✓ 你的论点已提交，等待老师选用上场</div>`;
+  }
+  app.innerHTML=`${st}<div class="submitted-ok">✓ 已记录</div><div class="submitted-sub">共 ${total} 票</div><div class="result-bars">${bars}</div>`;
+}
+
+let selId=null;
+function sel(id){
+  document.querySelectorAll('.opt').forEach(e=>e.classList.remove('sel'));
+  const el=document.getElementById('o_'+id); if(el) el.classList.add('sel');
+  selId=id; const sb=document.getElementById('sb'); if(sb) sb.disabled=false;
+}
+async function subVote(){
+  if(!selId) return;
+  const sb=document.getElementById('sb'); sb.disabled=true; sb.textContent='提交中…';
+  try{
+    const r=await fetch(BASE+'/api/session/vote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({optionId:selId})});
+    const d=await r.json();
+    if(d.ok){ localStorage.setItem(KEY_C,selId); myChoice=selId; tick(); }
+    else{ sb.disabled=false; sb.textContent='确 认 选 择'; alert(d.error||'提交失败'); }
+  }catch(e){ sb.disabled=false; sb.textContent='确 认 选 择'; alert('网络错误'); }
+}
+function cnt(el){ const l=el.value.trim().length; document.getElementById('ac').textContent=l+' / 200'; const sb=document.getElementById('sb'); if(sb) sb.disabled=l<10; }
+async function subArg(){
+  const el=document.getElementById('at'); if(!el) return;
+  const txt=el.value.trim(); if(txt.length<10) return;
+  const sb=document.getElementById('sb'); sb.disabled=true; sb.textContent='提交中…';
+  try{
+    const r=await fetch(BASE+'/api/session/arg',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:txt})});
+    const d=await r.json();
+    if(d.ok){ localStorage.setItem(KEY_C,'arg_ok'); myChoice='arg_ok'; tick(); }
+    else{ sb.disabled=false; sb.textContent='提 交 论 点'; alert(d.error||'提交失败'); }
+  }catch(e){ sb.disabled=false; sb.textContent='提 交 论 点'; alert('网络错误'); }
+}
+tick(); setInterval(tick,2000);
+</script>
+</body>
+</html>
